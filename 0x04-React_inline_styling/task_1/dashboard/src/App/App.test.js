@@ -28,35 +28,41 @@ describe("App tests", () => {
     expect(component).toBeDefined();
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Notifications component", () => {
-    const component = shallow(<App />);
-    expect(component.containsMatchingElement(<Notifications />)).toEqual(false);
+    const component = mount(<App />);
+    expect(component.find(Notifications).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Header component", () => {
-    const component = shallow(<App />);
-    expect(component.contains(<Header />)).toBe(true);
+    const component = mount(<App />);
+    expect(component.find(Header).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
-  it("should render Login Component", () => {
-    const component = shallow(<App />);
-    expect(component.contains(<Login />)).toBe(true);
+  // Change: Switched to `mount` to ensure full DOM rendering
+  it("should render Login Component when logged out", () => {
+    const component = mount(<App isLoggedIn={false} />);
+    expect(component.find(Login).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Footer Component", () => {
-    const component = shallow(<App />);
-    expect(component.contains(<Footer />)).toBe(true);
+    const component = mount(<App />);
+    expect(component.find(Footer).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("does not render CourseList if logged out", () => {
-    const component = shallow(<App isLoggedIn={false} />);
-    expect(component.contains(<CourseList />)).toBe(false);
+    const component = mount(<App isLoggedIn={false} />);
+    expect(component.find(CourseList).exists()).toBe(false); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("renders CourseList if logged in", () => {
-    const component = shallow(<App isLoggedIn={true} />);
-    expect(component.containsMatchingElement(<CourseList />)).toEqual(true);
-    expect(component.contains(<Login />)).toBe(false);
+    const component = mount(<App isLoggedIn={true} />);
+    expect(component.find(CourseList).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
+    expect(component.find(Login).exists()).toBe(false); // Change: Using `find` and `exists` with `mount`
   });
 });
 
