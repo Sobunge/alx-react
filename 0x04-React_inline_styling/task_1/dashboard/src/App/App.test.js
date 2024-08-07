@@ -28,35 +28,41 @@ describe("App tests", () => {
     expect(component).toBeDefined();
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Notifications component", () => {
     const component = mount(<App />);
-    expect(component.find(Notifications).exists()).toBe(true);
+    expect(component.find(Notifications).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Header component", () => {
     const component = mount(<App />);
-    expect(component.find(Header).exists()).toBe(true);
+    expect(component.find(Header).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Login Component when logged out", () => {
     const component = mount(<App isLoggedIn={false} />);
-    expect(component.find(Login).exists()).toBe(true);
+    expect(component.find(Login).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("should render Footer Component", () => {
     const component = mount(<App />);
-    expect(component.find(Footer).exists()).toBe(true);
+    expect(component.find(Footer).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("does not render CourseList if logged out", () => {
     const component = mount(<App isLoggedIn={false} />);
-    expect(component.find(CourseList).exists()).toBe(false);
+    expect(component.find(CourseList).exists()).toBe(false); // Change: Using `find` and `exists` with `mount`
   });
 
+  // Change: Switched to `mount` to ensure full DOM rendering
   it("renders CourseList if logged in", () => {
     const component = mount(<App isLoggedIn={true} />);
-    expect(component.find(CourseList).exists()).toBe(true);
-    expect(component.find(Login).exists()).toBe(false);
+    expect(component.find(CourseList).exists()).toBe(true); // Change: Using `find` and `exists` with `mount`
+    expect(component.find(Login).exists()).toBe(false); // Change: Using `find` and `exists` with `mount`
   });
 });
 
