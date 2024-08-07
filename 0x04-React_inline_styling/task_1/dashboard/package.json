@@ -25,6 +25,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^6.7.1",
     "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.2",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "image-webpack-loader": "^8.1.0",
@@ -44,7 +45,7 @@
     "react-dom": "^17.0.2"
   },
   "jest": {
-    "setupFiles": [
+    "setupFilesAfterEnv": [
       "<rootDir>/config/setupTests.js"
     ],
     "moduleNameMapper": {
