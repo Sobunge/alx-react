@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendering components renders correct html from html="<u>test</u>" props 1`] = `"<li data-urgent=\\"true\\" class=\\"urgent_cyonix\\"><u>test</u></li>"`;
+
+exports[`rendering components renders correct html from type="default" value="test" props 1`] = `"<li class=\\"default_2c02es\\" data-notification-type=\\"default\\">test</li>"`;
