@@ -13,12 +13,12 @@ import { StyleSheetTestUtils } from "aphrodite";
 
 beforeEach(() => {
   StyleSheetTestUtils.suppressStyleInjection();
-  global.alert = jest.fn();
+  global.alert = jest.fn(); // Mock alert globally
 });
 
 afterEach(() => {
   StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-  jest.clearAllMocks();
+  jest.clearAllMocks(); // Clear all mocks after each test
 });
 
 describe("App tests", () => {
@@ -47,15 +47,14 @@ describe("App tests", () => {
     expect(component.contains(<Footer />)).toBe(true);
   });
 
-  it("does not render courselist if logged out", () => {
-    const component = shallow(<App />);
-    component.setProps({ isLogedIn: false });
+  it("does not render CourseList if logged out", () => {
+    const component = shallow(<App isLoggedIn={false} />);
     expect(component.contains(<CourseList />)).toBe(false);
   });
 
-  it("renders courselist if logged in", () => {
+  it("renders CourseList if logged in", () => {
     const component = shallow(<App isLoggedIn={true} />);
-    expect(component.containsMatchingElement(<CourseList />)).toEqual(false);
+    expect(component.containsMatchingElement(<CourseList />)).toEqual(true);
     expect(component.contains(<Login />)).toBe(false);
   });
 });
