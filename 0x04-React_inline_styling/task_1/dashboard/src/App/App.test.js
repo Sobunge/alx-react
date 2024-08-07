@@ -11,6 +11,7 @@ import CourseList from "../CourseList/CourseList";
 import { shallow, mount } from "enzyme";
 import { StyleSheetTestUtils } from "aphrodite";
 
+// Mock global alert function
 beforeEach(() => {
   StyleSheetTestUtils.suppressStyleInjection();
   global.alert = jest.fn(); // Mock alert globally
