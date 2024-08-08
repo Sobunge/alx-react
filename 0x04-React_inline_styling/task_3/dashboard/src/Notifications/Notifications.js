@@ -8,12 +8,12 @@ import NotificationItemShape from "./NotificationItemShape";
 class Notifications extends Component {
   constructor(props) {
     super(props);
-
     this.markAsRead = this.markAsRead.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.length > this.props.listNotifications.length;
+    // Update if props change (including listNotifications or displayDrawer)
+    return nextProps.listNotifications !== this.props.listNotifications || nextProps.displayDrawer !== this.props.displayDrawer;
   }
 
   markAsRead(id) {
@@ -42,19 +42,31 @@ class Notifications extends Component {
                 outline: "none",
               }}
               aria-label="Close"
-              onClick={(e) => {
+              onClick={() => {
                 console.log("Close button has been clicked");
               }}
             >
               <img src={closeIcon} alt="close icon" width="10px" />
             </button>
-            {this.props.listNotifications.length != 0 ? <p>Here is the list of notifications</p> : null}
-            <ul>
-              {this.props.listNotifications.length == 0 ? <NotificationItem type="default" value="No new notification for now" /> : null}
-              {this.props.listNotifications.map((val, idx) => {
-                return <NotificationItem type={val.type} value={val.value} html={val.html} key={val.id} markAsRead={this.markAsRead} id={val.id} />;
-              })}
-            </ul>
+            {this.props.listNotifications.length === 0 ? (
+              <p>No new notification for now</p>
+            ) : (
+              <div>
+                <p>Here is the list of notifications</p>
+                <ul>
+                  {this.props.listNotifications.map((val) => (
+                    <NotificationItem
+                      type={val.type}
+                      value={val.value}
+                      html={val.html}
+                      key={val.id}
+                      markAsRead={this.markAsRead}
+                      id={val.id}
+                    />
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         ) : null}
       </React.Fragment>
@@ -80,11 +92,6 @@ const styles = StyleSheet.create({
       fontSize: "20px",
       padding: "0",
     },
-  },
-
-  "notification-header": {
-    display: "flex",
-    justifyContent: "space-between",
   },
 
   menuItem: {
