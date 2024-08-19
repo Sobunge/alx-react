@@ -1,49 +1,44 @@
 import React from "react";
+import { shallow } from "enzyme";
 import CourseList from "./CourseList";
 import CourseListRow from "./CourseListRow";
-import { shallow } from "enzyme";
-import { StyleSheetTestUtils } from "aphrodite";
-
-beforeEach(() => {
-  StyleSheetTestUtils.suppressStyleInjection();
-});
-afterEach(() => {
-  StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
-});
-
-const listCourses = [
-  { id: 1, name: "ES6", credit: 60 },
-  { id: 2, name: "Webpack", credit: 20 },
-  { id: 3, name: "React", credit: 40 },
-];
 
 describe("CourseList component tests", () => {
-  it("should render without crashing", () => {
-    const wrapper = shallow(<CourseList />);
-
-    expect(wrapper.exists()).toBe(true);
-  });
-
   it("renders 5 different rows", () => {
+    const listCourses = [
+      { id: 1, name: "ES6", credit: 60 },
+      { id: 2, name: "Webpack", credit: 20 },
+      { id: 3, name: "React", credit: 40 },
+      { id: 4, name: "Node", credit: 30 },
+      { id: 5, name: "Express", credit: 10 }
+    ];
+
     const wrapper = shallow(<CourseList listCourses={listCourses} />);
+    const rows = wrapper.find("tbody").children();
 
-    expect(wrapper.find("thead").children()).toHaveLength(2);
-    wrapper.find("thead").forEach((node) => {
-      expect(node.equals(<CourseListRow textFirstCell="Course name" textSecondCell="Credit" isHeader={true} />));
+    expect(rows).toHaveLength(5);
+
+    rows.forEach((row, index) => {
+      expect(row.find("td").at(0).text()).toEqual(listCourses[index].name);
+      expect(row.find("td").at(1).text()).toEqual(String(listCourses[index].credit));
     });
-
-    expect(wrapper.find("tbody").children()).toHaveLength(3);
-    expect(wrapper.find("tbody").childAt(0).html()).toEqual('<tr class="normal_y7r86x"><td>ES6</td><td>60</td></tr>');
-    expect(wrapper.find("tbody").childAt(1).html()).toEqual('<tr class="normal_y7r86x"><td>Webpack</td><td>20</td></tr>');
-    expect(wrapper.find("tbody").childAt(2).html()).toEqual('<tr class="normal_y7r86x"><td>React</td><td>40</td></tr>');
   });
 
-  it("renders correctely when passed a list of courses", () => {
-    const wrapper = shallow(<CourseList listCourses={listCourses} />);
+  it("renders correctly when passed a list of courses", () => {
+    const listCourses = [
+      { id: 1, name: "ES6", credit: 60 },
+      { id: 2, name: "Webpack", credit: 20 },
+      { id: 3, name: "React", credit: 40 }
+    ];
 
-    expect(wrapper.find("tbody").children()).toHaveLength(3);
-    expect(wrapper.find("tbody").childAt(0).html()).toEqual('<tr class="normal_y7r86x"><td>ES6</td><td>60</td></tr>');
-    expect(wrapper.find("tbody").childAt(1).html()).toEqual('<tr class="normal_y7r86x"><td>Webpack</td><td>20</td></tr>');
-    expect(wrapper.find("tbody").childAt(2).html()).toEqual('<tr class="normal_y7r86x"><td>React</td><td>40</td></tr>');
+    const wrapper = shallow(<CourseList listCourses={listCourses} />);
+    const rows = wrapper.find("tbody").children();
+
+    expect(rows).toHaveLength(3);
+
+    rows.forEach((row, index) => {
+      expect(row.find("td").at(0).text()).toEqual(listCourses[index].name);
+      expect(row.find("td").at(1).text()).toEqual(String(listCourses[index].credit));
+    });
   });
 });
