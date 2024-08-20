@@ -1,17 +1,23 @@
 import { schema } from 'normalizr';
 
-// Define the user entity
-const user = new schema.Entity('users');
+// Define user schema
+export const user = new schema.Entity('users');
 
-// Define the message entity with `guid` as the id attribute
-const message = new schema.Entity('messages', {}, {
+// Define message schema with custom idAttribute
+export const message = new schema.Entity('messages', {}, {
   idAttribute: 'guid'
 });
 
-// Define the notification entity with relationships to user and message
-const notification = new schema.Entity('notifications', {
+// Define notification schema
+export const notification = new schema.Entity('notifications', {
   author: user,
-  context: message,
+  context: message
 });
 
-export { user, message, notification };
+// Function to get notifications by user
+export const getAllNotificationsByUser = (data, userId) => {
+  const notifications = data.entities.notifications || {};
+  return Object.values(notifications).filter(notification => 
+    notification.author === userId
+  );
+};
