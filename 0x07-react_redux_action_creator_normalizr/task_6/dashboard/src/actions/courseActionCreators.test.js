@@ -1,4 +1,4 @@
-// task_3/dashboard/src/actions/courseActionCreators.test.js
+// task_6/dashboard/src/actions/courseActionCreators.test.js
 
 import { selectCourse, unSelectCourse } from './courseActionCreators';
 import { SELECT_COURSE, UNSELECT_COURSE } from './courseActionTypes';
