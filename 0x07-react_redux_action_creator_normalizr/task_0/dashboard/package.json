@@ -45,7 +45,7 @@
     "react-dom": "^17.0.2"
   },
   "jest": {
-    "setupFiles": [
+    "setupFilesAfterEnv": [
       "<rootDir>/config/setupTests.js"
     ],
     "moduleNameMapper": {
@@ -53,7 +53,10 @@
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
     },
     "transform": {
-      "\\.js$": "<rootDir>/node_modules/babel-jest"
-    }
+      "^.+\\.js$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
   }
 }
