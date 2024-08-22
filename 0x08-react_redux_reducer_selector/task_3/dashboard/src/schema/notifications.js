@@ -1,4 +1,4 @@
-import { schema } from 'normalizr';
+import { normalize, schema } from 'normalizr';
 
 // Define user schema
 export const user = new schema.Entity('users');
@@ -13,6 +13,9 @@ export const notification = new schema.Entity('notifications', {
   author: user,
   context: message
 });
+
+// Function to normalize notifications data
+export const notificationsNormalizer = (data) => normalize(data, [notification]);
 
 // Function to get notifications by user
 export const getAllNotificationsByUser = (data, userId) => {
