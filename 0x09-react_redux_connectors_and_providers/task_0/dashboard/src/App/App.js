@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux"; // Import connect from react-redux
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import Login from "../Login/Login";
@@ -10,6 +11,11 @@ import { StyleSheet, css } from "aphrodite";
 import PropTypes from "prop-types";
 import { getLatestNotification } from "../utils/utils";
 import { AppContext, user } from "./AppContext";
+
+// Define mapStateToProps function
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.uiReducer.isUserLoggedIn, // Access state from uiReducer
+});
 
 class App extends React.Component {
   constructor(props) {
@@ -85,6 +91,7 @@ class App extends React.Component {
     const newList = this.state.listNotifications.filter((notification) => notification.id !== id);
     this.setState({ listNotifications: newList });
   }
+
   render() {
     return (
       <AppContext.Provider
@@ -105,7 +112,7 @@ class App extends React.Component {
               />
               <Header />
             </div>
-            {this.state.user.isLoggedIn ? (
+            {this.props.isLoggedIn ? ( // Use isLoggedIn from props
               <BodySectionWithMarginBottom title="Course list">
                 <CourseList listCourses={this.listCourses} />
               </BodySectionWithMarginBottom>
@@ -145,8 +152,8 @@ App.defaultProps = {
 };
 
 App.propTypes = {
-  isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func,
+  isLoggedIn: PropTypes.bool.isRequired, // Ensure isLoggedIn is required
+  logOut: PropTypes.func.isRequired,   // Ensure logOut is required
 };
 
-export default App;
+export default connect(mapStateToProps)(App); // Connect mapStateToProps to the App component

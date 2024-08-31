@@ -10,63 +10,143 @@ import Notifications from "../Notifications/Notifications";
 import CourseList from "../CourseList/CourseList";
 import { shallow, mount } from "enzyme";
 import { StyleSheetTestUtils } from "aphrodite";
-import { AppContext, user, logOut } from "./AppContext";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+const user = {
+  email: "testy@gmail.com",
+  password: "testy",
+  isLoggedIn: true,
+};
 
 beforeEach(() => {
   StyleSheetTestUtils.suppressStyleInjection();
 });
+
 afterEach(() => {
   StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
 });
 
 describe("rendering components", () => {
   it("renders App component without crashing", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = shallow(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ).dive(); // Use dive() to get the shallow version of App component
 
     expect(wrapper.exists()).toBe(true);
   });
 
   it("contains Notifications component", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = shallow(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ).dive();
 
     expect(wrapper.find(Notifications)).toHaveLength(1);
   });
 
   it("contains Header component", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = shallow(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ).dive();
 
     expect(wrapper.contains(<Header />)).toBe(true);
   });
 
   it("contains Login component", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = shallow(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ).dive();
 
     expect(wrapper.find(Login)).toHaveLength(1);
   });
 
   it("contains Footer component", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = shallow(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ).dive();
 
     expect(wrapper.contains(<Footer />)).toBe(true);
   });
 
   it("checks CourseList is not rendered", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = shallow(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    ).dive();
 
     expect(wrapper.contains(<CourseList />)).toBe(false);
   });
 });
 
 describe("when isLogged in is true", () => {
-  const wrapper = shallow(<App />);
-  expect(wrapper.state().user).toEqual(user);
+  const store = mockStore({
+    isUserLoggedIn: true,
+    user
+  });
 
   it("checks Login is not rendered", () => {
-    expect(wrapper.contains(<Login />)).toBe(false);
+    const wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    expect(wrapper.find(Login)).toHaveLength(0);
   });
 
   it("checks CourseList is rendered", () => {
-    expect(wrapper.find(CourseList)).toHaveLength(0);
+    const wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
+
+    expect(wrapper.find(CourseList)).toHaveLength(1);
   });
 
   it(`Tests that the logIn function updates user's state correctly`, () => {
@@ -112,20 +192,47 @@ describe("when isLogged in is true", () => {
 
 describe("testing state of App.js", () => {
   it("displayDrawer initial value should be set to false", () => {
-    const wrapper = mount(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
 
     expect(wrapper.state().displayDrawer).toBe(false);
   });
 
   it("should set displayDrawer to true after calling handleDisplayDrawer", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
     wrapper.instance().handleDisplayDrawer();
 
     expect(wrapper.state().displayDrawer).toBe(true);
   });
 
   it("should set displayDrawer to false after calling handleHideDrawer", () => {
-    const wrapper = shallow(<App />);
+    const store = mockStore({
+      isUserLoggedIn: false,
+      user: {}
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
     wrapper.instance().handleHideDrawer();
 
     expect(wrapper.state().displayDrawer).toBe(false);
@@ -162,7 +269,7 @@ describe("markNotificationAsRead works as intended", () => {
     ]);
 
     expect(wrapper.state().listNotifications.length).toBe(2);
-    expect(wrapper.state().listNotifications[3]).toBe(undefined);
+    expect(wrapper.state().listNotifications.find(n => n.id === 3)).toBeUndefined();
 
     wrapper.unmount();
   });
